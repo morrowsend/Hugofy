@@ -3,9 +3,9 @@
 while getopts r:m:d: OPT
 do
   case $OPT in
-    "r" ) FLG_G="TRUE" ; REPOSITORY="$OPTARG" ;;
-    "m" ) FLG_M="TRUE" ; COMMIT_MESSAGE="$OPTARG" ;;
-    "d" ) FLG_D="TRUE" ; DIRECTORY="$OPTARG" ;;
+    "r" ) FLG_G=1 ; REPOSITORY="$OPTARG" ;;
+    "m" ) FLG_M=1 ; COMMIT_MESSAGE="$OPTARG" ;;
+    "d" ) FLG_D=1 ; DIRECTORY="$OPTARG" ;;
   esac
 done
 
@@ -21,13 +21,13 @@ git add -A
 
 # Commit changes.
 msg="rebuilding site `date`"
-if [ FLG_M ]
+if [ "$FLG_M" ] && [ -n "$COMMIT_MESSAGE" ]
   then msg=$COMMIT_MESSAGE
 fi
 git commit -m "$msg"
 # Push source and build repos.
 remote_repository="origin"
-if [ FLG_M ]
+if [ "$FLG_G" ]
   then remote_repository=$REPOSITORY
 fi
 git push $remote_repository master
