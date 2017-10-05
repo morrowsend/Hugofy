@@ -13,5 +13,7 @@
 	"Sitename": "MyFirstsite",
 	//repository
 	//e.g. git@github.com:pyonk/blog.git
-	"Repository": ""
+	"Repository": "",
+	// hugo path
+	"Path": "/usr/local/bin/hugo"
 }
