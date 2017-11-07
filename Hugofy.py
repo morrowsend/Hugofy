@@ -3,6 +3,7 @@ import sublime_plugin
 import subprocess
 import os
 import shlex
+import webbrowser
 
 
 def setvars():
@@ -28,7 +29,7 @@ class HugonewcontentCommand(sublime_plugin.TextCommand):
     def on_done(self, pagename):
         if not pagename:
             sublime.error_message("No filename provided")
-        process = hugo_path + " new " + pagename
+        process = "{} new {}".format(hugo_path, pagename)
         subprocess.Popen(shlex.split(process))
         sublime.active_window().open_file(os.path.join(path, sitename, "content", pagename))
 
@@ -62,6 +63,7 @@ class HugoserverstartCommand(sublime_plugin.TextCommand):
         try:
             startCmd = hugo_path + " server --theme={} --buildDrafts --watch --port={}".format(theme, server["PORT"])
             out = subprocess.Popen(shlex.split(startCmd), stderr=subprocess.STDOUT, universal_newlines=True)
+            webbrowser.open("http://localhost:{}/{}".format(server["PORT"], server["PATH"]))
             sublime.status_message('Server Started: {}'.format(startCmd))
         except:
             sublime.error_message("Error starting server")
@@ -137,7 +139,7 @@ class HugodeployCommand(sublime_plugin.TextCommand):
         try:
             script_path = os.path.join(sublime.packages_path(), 'Hugofy/deploy.sh')
             deployCmd = "sh '{}' -r '{}' -m '{}' -d '{}'".format(script_path, repository, commit_message, os.path.join(path, sitename))
-            sublime.message_dialog(deployCmd)
+            # sublime.message_dialog(deployCmd)
             sublime.status_message(deployCmd)
             out = subprocess.Popen(shlex.split(deployCmd), universal_newlines=True)
             out.wait()

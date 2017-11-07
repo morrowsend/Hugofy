@@ -7,6 +7,7 @@
 	"Directory": "C:\\Users\\amitm\\OneDrive\\Documents\\Projects\\hugo\\mySite",
 	"Server":
 	{
+		"PATH": "/", //if you want to access http://localhost:{port}/blog, input /blog
 		"PORT": 8000 //server port number
 	},
 	//website name
